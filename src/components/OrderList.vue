@@ -1,33 +1,26 @@
 <template>
   <div class="orders">
+    <div class="column__header">
+      <h2 class="column__title">Заказы</h2>
+      <div v-on:click="refreshOrderList()" class="column__refresh-btn column__refresh-btn_position_right">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <title>refresh</title>
+          <g id="Layer_2" data-name="Layer 2">
+              <g id="refresh">
+                  <g id="refresh-2" data-name="refresh">
+                      <path id="refresh-btn" d="M20.3,13.43a1,1,0,0,0-1.25.65A7.14,7.14,0,0,1,12.18,19,7.1,7.1,0,0,1,5,12a7.1,7.1,0,0,1,7.18-7,7.26,7.26,0,0,1,4.65,1.67l-2.17-.36a1,1,0,0,0-1.15.83,1,1,0,0,0,.83,1.15l4.24.7h.17a1,1,0,0,0,.34-.06.33.33,0,0,0,.1-.06.78.78,0,0,0,.2-.11l.09-.11c0-.05.09-.09.13-.15s0-.1.05-.14a1.34,1.34,0,0,0,.07-.18l.75-4a1,1,0,0,0-2-.38l-.27,1.45A9.21,9.21,0,0,0,12.18,3,9.1,9.1,0,0,0,3,12a9.1,9.1,0,0,0,9.18,9A9.12,9.12,0,0,0,21,14.68,1,1,0,0,0,20.3,13.43Z"/>
+                  </g>
+              </g>
+          </g>
+        </svg>
+      </div>
+    </div>
     <ul class="orders__list">
-      <li class="orders__item order">
-        <p class="order__name">Заказ #123</p>
+      <li v-for="order in orders" :key="order.id" class="orders__item order">
+        <p class="order__name">Заказ #{{ order.id }}</p>
         <div class="order__block">
-          <p class="order__price">12,345.00 руб</p>
-          <button class="order__button">
-            <svg viewBox="0 0 16 16" class="bi bi-three-dots" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-              <path fill-rule="evenodd" d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/>
-            </svg>  
-          </button>
-          <div class="order__additional additional">
-            <ul class="additional__list">
-              <li class="additional__item">Подробнее</li>
-              <li class="additional__item additional__item_color_green">К отгрузке</li>
-              <li class="additional__item additional__item_color_red">Отменить</li>
-            </ul>
-          </div>
-        </div>
-      </li>
-      <li class="orders__item order">
-        <p class="order__name">Заказ #123</p>
-        <div class="order__block">
-          <p class="order__price">12,345.00 руб</p>
-          <button class="order__button">
-            <svg viewBox="0 0 16 16" class="bi bi-three-dots" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-              <path fill-rule="evenodd" d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/>
-            </svg> 
-          </button>
+          <p class="order__price">{{ order.total }}руб</p>
+          <order-options :order_id="order.id"  @openModal="openModal"></order-options>
         </div>
       </li>
     </ul>
@@ -35,10 +28,46 @@
 </template>
 
 <script>
+import OrderOptions from './OrderOptions.vue'
+
 export default {
   name: 'OrderList',
-  props: {
-    
+  components: {
+    OrderOptions,
+  },
+  data() {
+    return {
+      orders: {},
+      showOption: false,
+      modal: {},
+    }
+  },
+  created() {
+    this.refreshOrderList();
+  },
+  methods: {
+    getOrders: async function() {
+      const response = await fetch('https://justcors.com/tl_68a61b8/demo-api.vsdev.space/api/orders_admin/2021-0637/orders/', {
+        method: 'GET',
+      });
+      return response.json();
+    },
+    refreshOrderList: function() {
+      this.orders = {};
+      this.getOrders().then((data) => {this.orders = data});
+    },
+    getOrderDetails: async function(order_id) {
+      const response = await fetch(`https://justcors.com/tl_68a61b8/demo-api.vsdev.space/api/orders_admin/2021-0637/orders/${order_id}`, {
+        method: 'GET',
+      });
+      return response.json();
+    },
+    openModal: function(order_id) {
+      this.getOrderDetails(order_id).then((data) => {
+        this.modal = data
+        this.$emit("openModal", this.modal);
+      });
+    }
   }
 }
 </script>
@@ -50,7 +79,7 @@ export default {
       padding: 15px;
 		}
 		&__item {
-      margin-bottom: 20px;
+      margin-bottom: 40px;
 		}
   }
   .order {
@@ -58,7 +87,6 @@ export default {
     border-radius: 10px;
     display: flex;
     justify-content: space-between;
-    position: relative;
     padding: 15px;
     &__name {
       align-self: center;
@@ -69,48 +97,6 @@ export default {
       gap: 15px;
     }
     &__price {
-    }
-    &__button {
-      cursor: pointer;
-      background: none;
-      background-color: none;
-      width: 40px;
-      height: 40px;
-      border: 2px black solid;
-      border-radius: 10px;
-      &>svg {
-        width: 25px;
-        height: 25px;
-      }
-    }
-    &__additional {
-      position: absolute;
-      bottom: 0;
-      right: 0;
-      transform: translate(18%, 90%);
-    }
-  }
-  .additional {
-    background: white;
-    z-index: 2;
-    border: 2px black solid;
-    border-radius: 5px;
-    &__list {
-    }
-    &__item {
-      cursor: pointer;
-      text-align: center;
-      padding: 10px 15px;
-      border-bottom: 2px black solid;
-      &:nth-last-child(-n+1) {
-        border-bottom: none;
-      }
-      &_color_red {
-        color: red;
-      }
-      &_color_green {
-        color: green;
-      }
     }
   }
 </style>
