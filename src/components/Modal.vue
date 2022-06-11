@@ -25,8 +25,8 @@
           </div>
         </div>
         <div class="modal__footer">
-          <button class="modal__btn modal__btn_color_green">К отгрузке</button>
-          <button class="modal__btn modal__btn_color_red">Отменить</button>
+          <button class="modal__btn modal__btn_color_green" @click="toShipment(); closeModal();">К отгрузке</button>
+          <button class="modal__btn modal__btn_color_red" @click="deleteOrder(); closeModal();">Отменить</button>
           </div>
       </div>
     </div>
@@ -40,6 +40,16 @@ export default {
   methods: {
     closeModal: function() {
       this.$emit("closeModal", null);
+    },
+    toShipment: async function() {
+      await fetch(`https://justcors.com/tl_124fa38/demo-api.vsdev.space/api/orders_admin/2021-0637/orders/${this.modal.id}/delivery`, {
+        method: 'POST',
+      });
+    },
+    deleteOrder: async function() {
+      await fetch(`https://demo-api.vsdev.space/api/orders_admin/2021-0637/orders/${this.modal.id}`, {
+        method: 'DELETE',
+      });
     }
   }
 }
@@ -63,9 +73,9 @@ export default {
 		&__window {
       width: 500px;
       margin: 0px auto;
-      background: white;
+      background: var(--background-color);
       padding: 15px;
-      border: 2px black solid;
+      border: 2px var(--text-and-stroke-color) solid;
       border-radius: 10px;
       
 		}
@@ -88,7 +98,8 @@ export default {
       font-size: 1.4rem;
       line-height: 1.2;
       background: none;
-      border: 2px black solid;
+      border: 2px var(--text-and-stroke-color) solid;
+      color: var(--text-and-stroke-color);
       border-radius: 10px;
       width: 35px;
       height: 35px;
@@ -100,11 +111,11 @@ export default {
       margin-bottom: 15px;
 		}
 		&__list {
-      border: 2px black solid;
+      border: 2px var(--text-and-stroke-color) solid;
       border-radius: 10px;
 		}
 		&__item {
-      border-bottom: 2px black solid;
+      border-bottom: 2px var(--text-and-stroke-color) solid;
       &:nth-last-child(-n+1) {
         border-bottom: none;
       }
@@ -117,7 +128,7 @@ export default {
 		}
 		&__btn {
       background: none;
-      border: 2px black solid;
+      border: 2px var(--text-and-stroke-color) solid;
       border-radius: 5px;
       font-size: 1.2rem;
       line-height: 1.3;

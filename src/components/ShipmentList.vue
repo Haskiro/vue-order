@@ -19,11 +19,11 @@
       <li v-for="shipment in shipments" :key="shipment.id" class="shipments__item shipment">
         <div class="shipment__block-id">
           <p class="shipment__name">Отгрузка# {{ shipment.id }}</p>
-          <p class="shipment__order-name">Заказ #123</p>
+          <p class="shipment__order-name">Заказ #{{ shipment.order_id }}</p>
         </div>
         <div class="shipment__block">
           <p class="shipment__date">{{ shipment.delivery_date}}</p>
-          <shipment-options></shipment-options>
+          <shipment-options :shipment_id="shipment.id" @deleteShipment="deleteShipment"></shipment-options>
         </div>
       </li>
     </ul>
@@ -48,7 +48,7 @@ export default {
   },
   methods: {
     getShipments: async function() {
-      const response = await fetch('https://justcors.com/tl_68a61b8/demo-api.vsdev.space/api/orders_admin/2021-0606/deliveries/', {
+      const response = await fetch('https://justcors.com/tl_124fa38/demo-api.vsdev.space/api/orders_admin/2021-0637/deliveries/', {
         method: 'GET',
       });
       return response.json();
@@ -57,6 +57,11 @@ export default {
       this.shipments = {};
       this.getShipments().then((data) => {this.shipments = data});
     },
+    deleteShipment: async function(shipment_id) {
+      await fetch(`https://demo-api.vsdev.space/api/orders_admin/2021-0637/deliveries/${shipment_id}`, {
+        method: 'DELETE',
+      }).then(() => {this.refreshShipmentList()});
+    }
   }
 }
 </script>
@@ -72,7 +77,7 @@ export default {
 		}
   }
   .shipment {
-    border: 2px black solid;
+    border: 2px var(--text-and-stroke-color) solid;
     border-radius: 10px;
     display: flex;
     justify-content: space-between;

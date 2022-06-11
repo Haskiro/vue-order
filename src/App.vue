@@ -1,12 +1,12 @@
 <template>
-  <div id="app">
+  <div id="app" v-bind:class="{ modalIsOpen: modalIsVisible }">
     <header class="header container">
       <div class="header__body">
         <h1 class="header__title">Vue: order</h1>
         <div class="header__switcher switcher">
           <p class="switcher__text">Темная тема</p>
           <div class="switcher__icon icon-switcher">
-            <div class="icon-switcher__circle"></div>
+            <div class="icon-switcher__circle" @click="changeTheme" v-bind:class="{ active: darkTheme }"></div>
           </div>
         </div>
       </div>
@@ -25,7 +25,7 @@
     <footer class="footer container">
       <div class="footer__body">
         <p class="footer_text">Кондратьев Павел Евгеньевич, 211-321</p>
-        <button class="scroll-btn">
+        <a class="scroll-btn" href="#">
           <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
             viewBox="0 0 100 100" style="enable-background:new 0 0 100 100;" xml:space="preserve">
             <path 
@@ -33,7 +33,7 @@
               c1,1,2.6,1,3.5,0l7.6-7.7v87.6c0,1.4,1.1,2.5,2.5,2.5l0,0C50.5,99.6,51.6,98.5,51.6,97.1z"
             />
           </svg>
-        </button>
+        </a>
       </div>
     </footer>
   </div>
@@ -51,6 +51,7 @@ export default {
       modalIsVisible: false,
       modal: {},
       modalOrders: [],
+      darkTheme: false,
     }
   },
   components: {
@@ -67,6 +68,10 @@ export default {
     },
     modalVisibilityToggle: function() {
       this.modalIsVisible = !this.modalIsVisible;
+    },
+    changeTheme: function() {
+      this.darkTheme = !this.darkTheme;
+      document.getElementById('html').classList.toggle('dark-theme');
     }
   }
 }

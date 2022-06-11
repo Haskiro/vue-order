@@ -20,7 +20,7 @@
         <p class="order__name">Заказ #{{ order.id }}</p>
         <div class="order__block">
           <p class="order__price">{{ order.total }}руб</p>
-          <order-options :order_id="order.id"  @openModal="openModal"></order-options>
+          <order-options :order_id="order.id"  @openModal="openModal" @toShipment="addOrderToShipments" @deleteOrder="deleteOrder"></order-options>
         </div>
       </li>
     </ul>
@@ -47,7 +47,7 @@ export default {
   },
   methods: {
     getOrders: async function() {
-      const response = await fetch('https://justcors.com/tl_68a61b8/demo-api.vsdev.space/api/orders_admin/2021-0637/orders/', {
+      const response = await fetch('https://justcors.com/tl_124fa38/demo-api.vsdev.space/api/orders_admin/2021-0637/orders/', {
         method: 'GET',
       });
       return response.json();
@@ -57,7 +57,7 @@ export default {
       this.getOrders().then((data) => {this.orders = data});
     },
     getOrderDetails: async function(order_id) {
-      const response = await fetch(`https://justcors.com/tl_68a61b8/demo-api.vsdev.space/api/orders_admin/2021-0637/orders/${order_id}`, {
+      const response = await fetch(`https://justcors.com/tl_124fa38/demo-api.vsdev.space/api/orders_admin/2021-0637/orders/${order_id}`, {
         method: 'GET',
       });
       return response.json();
@@ -67,7 +67,17 @@ export default {
         this.modal = data
         this.$emit("openModal", this.modal);
       });
-    }
+    }, 
+    addOrderToShipments: async function(order_id) {
+      await fetch(`https://justcors.com/tl_124fa38/demo-api.vsdev.space/api/orders_admin/2021-0637/orders/${order_id}/delivery`, {
+        method: 'POST',
+      });
+    },
+    deleteOrder: async function(order_id) {
+      await fetch(`https://demo-api.vsdev.space/api/orders_admin/2021-0637/orders/${order_id}`, {
+        method: 'DELETE',
+      }).then(() => {this.refreshOrderList()});
+    },
   }
 }
 </script>
@@ -83,7 +93,7 @@ export default {
 		}
   }
   .order {
-    border: 2px black solid;
+    border: 2px var(--text-and-stroke-color) solid;
     border-radius: 10px;
     display: flex;
     justify-content: space-between;
