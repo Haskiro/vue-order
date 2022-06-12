@@ -42,7 +42,7 @@ export default {
       this.$emit("closeModal", null);
     },
     toShipment: async function() {
-      await fetch(`https://justcors.com/tl_124fa38/demo-api.vsdev.space/api/orders_admin/2021-0637/orders/${this.modal.id}/delivery`, {
+      await fetch(`https://justcors.com/tl_26283e1/demo-api.vsdev.space/api/orders_admin/2021-0637/orders/${this.modal.id}/delivery`, {
         method: 'POST',
       });
     },

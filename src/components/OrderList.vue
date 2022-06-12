@@ -16,7 +16,7 @@
       </div>
     </div>
     <ul class="orders__list">
-      <li v-for="order in orders" :key="order.id" class="orders__item order">
+      <li v-for="order in orders" :key="order.id" class="orders__item order" draggable="true" @dragstart="startDrag(order.id)">
         <p class="order__name">Заказ #{{ order.id }}</p>
         <div class="order__block">
           <p class="order__price">{{ order.total }}руб</p>
@@ -47,7 +47,7 @@ export default {
   },
   methods: {
     getOrders: async function() {
-      const response = await fetch('https://justcors.com/tl_124fa38/demo-api.vsdev.space/api/orders_admin/2021-0637/orders/', {
+      const response = await fetch('https://justcors.com/tl_26283e1/demo-api.vsdev.space/api/orders_admin/2021-0637/orders/', {
         method: 'GET',
       });
       return response.json();
@@ -57,7 +57,7 @@ export default {
       this.getOrders().then((data) => {this.orders = data});
     },
     getOrderDetails: async function(order_id) {
-      const response = await fetch(`https://justcors.com/tl_124fa38/demo-api.vsdev.space/api/orders_admin/2021-0637/orders/${order_id}`, {
+      const response = await fetch(`https://justcors.com/tl_26283e1/demo-api.vsdev.space/api/orders_admin/2021-0637/orders/${order_id}`, {
         method: 'GET',
       });
       return response.json();
@@ -69,7 +69,7 @@ export default {
       });
     }, 
     addOrderToShipments: async function(order_id) {
-      await fetch(`https://justcors.com/tl_124fa38/demo-api.vsdev.space/api/orders_admin/2021-0637/orders/${order_id}/delivery`, {
+      await fetch(`https://justcors.com/tl_26283e1/demo-api.vsdev.space/api/orders_admin/2021-0637/orders/${order_id}/delivery`, {
         method: 'POST',
       });
     },
@@ -77,6 +77,9 @@ export default {
       await fetch(`https://demo-api.vsdev.space/api/orders_admin/2021-0637/orders/${order_id}`, {
         method: 'DELETE',
       }).then(() => {this.refreshOrderList()});
+    },
+    startDrag: function(order_id) {
+      this.$emit("dragOrder", order_id);
     },
   }
 }

@@ -13,12 +13,12 @@
     </header>
     <main class="main container">
       <section class="column">
-        <order-list @openModal="openModal"></order-list>
+        <order-list @openModal="openModal" @dragOrder="dragOrder"></order-list>
         <modal-window v-show="modalIsVisible" @closeModal="modalVisibilityToggle"
         :modal="modal" :modalOrders="modalOrders">
         </modal-window>
       </section>
-      <section class="column">
+      <section class="column" @drop="onDrop" @dragover.prevent @dragenter.prevent>
         <shipment-list></shipment-list>
       </section>
     </main>
@@ -52,6 +52,7 @@ export default {
       modal: {},
       modalOrders: [],
       darkTheme: false,
+      order_dragged: '',
     }
   },
   components: {
@@ -72,6 +73,14 @@ export default {
     changeTheme: function() {
       this.darkTheme = !this.darkTheme;
       document.getElementById('html').classList.toggle('dark-theme');
+    },
+    dragOrder: function(order_id) {
+      this.order_dragged = order_id;
+    },
+    onDrop: async function() {
+      await fetch(`https://justcors.com/tl_26283e1/demo-api.vsdev.space/api/orders_admin/2021-0637/orders/${this.order_dragged}/delivery`, {
+        method: 'POST',
+      });
     }
   }
 }

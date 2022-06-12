@@ -48,7 +48,7 @@ export default {
   },
   methods: {
     getShipments: async function() {
-      const response = await fetch('https://justcors.com/tl_124fa38/demo-api.vsdev.space/api/orders_admin/2021-0637/deliveries/', {
+      const response = await fetch('https://justcors.com/tl_26283e1/demo-api.vsdev.space/api/orders_admin/2021-0637/deliveries/', {
         method: 'GET',
       });
       return response.json();
