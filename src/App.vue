@@ -61,6 +61,11 @@ export default {
   created() {
     this.refreshOrderList();
     this.refreshShipmentList();
+    window.addEventListener('keydown', (e) => {
+      if (e.key == 'Escape') {
+        this.modalIsVisible = false;
+      }
+    });
   },
   components: {
     OrderList,
@@ -76,8 +81,10 @@ export default {
       return response.json();
     },
     refreshOrderList: function() {
-      this.orders = {};
-      this.getOrders().then((data) => {this.orders = data});
+      this.getOrders().then((data) => {
+        this.orders = {};
+        this.orders = data}
+      );
     },
     getShipments: async function() {
       const response = await fetch('https://justcors.com/tl_6550159/demo-api.vsdev.space/api/orders_admin/2021-0637/deliveries/', {

@@ -1,10 +1,10 @@
 <template>
-  <div class="modal">
-    <div class="modal__blackout">
+  <div class="modal" escapable="true">
+    <div class="modal__blackout" @click.self="closeModal">
       <div class="modal__window">
         <div class="modal__header">
           <p class="modal__title">Заказ #{{ modal.id }}</p>
-          <button class="modal__close" @click="closeModal">
+          <button class="modal__close" @click="closeModal" @keypress.esc="closeModal">
             x
           </button>
         </div>
@@ -50,7 +50,7 @@ export default {
       await fetch(`https://demo-api.vsdev.space/api/orders_admin/2021-0637/orders/${this.modal.id}`, {
         method: 'DELETE',
       }).then(() => { this.$emit("refreshOrderList", null)});
-    }
+    },
   }
 }
 </script>

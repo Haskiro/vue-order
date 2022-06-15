@@ -79,7 +79,7 @@ export default {
 <style scoped lang="scss">
   .orders {
     &__list {
-      padding: 15px;
+      padding: 15px 0px;
 		}
 		&__item {
       margin-bottom: 40px;

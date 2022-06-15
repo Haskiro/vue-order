@@ -18,7 +18,7 @@
     <ul class="shipments__list">
       <li v-for="shipment in shipments" :key="shipment.id" class="shipments__item shipment">
         <div class="shipment__block-id">
-          <p class="shipment__name">Отгрузка# {{ shipment.id }}</p>
+          <p class="shipment__name">Отгрузка #{{ shipment.id }}</p>
           <p class="shipment__order-name">Заказ #{{ shipment.order_id }}</p>
         </div>
         <div class="shipment__block">
@@ -60,7 +60,7 @@ export default {
 <style scoped lang="scss">
   .shipments {
     &__list {
-      padding: 15px;
+      padding: 15px 0px;
 		}
 		&__item {
       margin-bottom: 40px;
@@ -75,10 +75,10 @@ export default {
     padding: 15px;
     &__name {
       align-self: center;
-      font-size: 1.2rem;
-      line-height: 1.3;
     }
     &__order-name{
+      font-size: 0.9rem;
+      line-height: 1.2;
 
     }
     &__block-id {

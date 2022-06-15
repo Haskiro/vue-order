@@ -164,7 +164,7 @@ footer {
 	&__header {
         position: relative;
         text-align: center;
-        padding: 20px 15px;
+        padding: 20px 0px;
 	}
 	&__title {
         font-size: 1.4rem;
@@ -181,10 +181,10 @@ footer {
         border-radius: 10px;
         cursor: pointer;
         &_position_right {
-            right: 15px;
+            right: 0px;
         }
         &_position_left {
-            left: 15px;
+            left: 0px;
         }
 
 	}
