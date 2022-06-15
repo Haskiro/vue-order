@@ -2,9 +2,9 @@
   <div class="shipments">
     <div class="column__header">
       <h2 class="column__title">Отгрузки</h2>
-      <div v-on:click="refreshShipmentList()" class="column__refresh-btn column__refresh-btn_position_left">
+      <div v-on:click="refreshShipmentList" class="column__refresh-btn column__refresh-btn_position_left">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-          <title>refresh</title>
+          <title>Обновить</title>
           <g id="Layer_2" data-name="Layer 2">
               <g id="refresh">
                   <g id="refresh-2" data-name="refresh">
@@ -38,29 +38,19 @@ export default {
   components: {
     ShipmentOptions,
   },
+  props: ["shipments"],  
   data() {
     return {
-      shipments: {},
     }
   },
-  created() {
-    this.refreshShipmentList();
-  },
   methods: {
-    getShipments: async function() {
-      const response = await fetch('https://justcors.com/tl_26283e1/demo-api.vsdev.space/api/orders_admin/2021-0637/deliveries/', {
-        method: 'GET',
-      });
-      return response.json();
-    },
-    refreshShipmentList: function() {
-      this.shipments = {};
-      this.getShipments().then((data) => {this.shipments = data});
-    },
     deleteShipment: async function(shipment_id) {
       await fetch(`https://demo-api.vsdev.space/api/orders_admin/2021-0637/deliveries/${shipment_id}`, {
         method: 'DELETE',
       }).then(() => {this.refreshShipmentList()});
+    },
+    refreshShipmentList: function() {
+      this.$emit("refreshShipmentList", null);
     }
   }
 }

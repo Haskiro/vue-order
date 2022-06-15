@@ -2,9 +2,9 @@
   <div class="orders">
     <div class="column__header">
       <h2 class="column__title">Заказы</h2>
-      <div v-on:click="refreshOrderList()" class="column__refresh-btn column__refresh-btn_position_right">
+      <div v-on:click="refreshOrderList" class="column__refresh-btn column__refresh-btn_position_right">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-          <title>refresh</title>
+          <title>Обновить</title>
           <g id="Layer_2" data-name="Layer 2">
               <g id="refresh">
                   <g id="refresh-2" data-name="refresh">
@@ -32,32 +32,22 @@ import OrderOptions from './OrderOptions.vue'
 
 export default {
   name: 'OrderList',
+  props: ["orders"],
   components: {
     OrderOptions,
   },
   data() {
     return {
-      orders: {},
       showOption: false,
       modal: {},
     }
   },
-  created() {
-    this.refreshOrderList();
-  },
   methods: {
-    getOrders: async function() {
-      const response = await fetch('https://justcors.com/tl_26283e1/demo-api.vsdev.space/api/orders_admin/2021-0637/orders/', {
-        method: 'GET',
-      });
-      return response.json();
-    },
     refreshOrderList: function() {
-      this.orders = {};
-      this.getOrders().then((data) => {this.orders = data});
+      this.$emit("refreshOrderList", null);
     },
     getOrderDetails: async function(order_id) {
-      const response = await fetch(`https://justcors.com/tl_26283e1/demo-api.vsdev.space/api/orders_admin/2021-0637/orders/${order_id}`, {
+      const response = await fetch(`https://justcors.com/tl_6550159/demo-api.vsdev.space/api/orders_admin/2021-0637/orders/${order_id}`, {
         method: 'GET',
       });
       return response.json();
@@ -69,7 +59,7 @@ export default {
       });
     }, 
     addOrderToShipments: async function(order_id) {
-      await fetch(`https://justcors.com/tl_26283e1/demo-api.vsdev.space/api/orders_admin/2021-0637/orders/${order_id}/delivery`, {
+      await fetch(`https://justcors.com/tl_6550159/demo-api.vsdev.space/api/orders_admin/2021-0637/orders/${order_id}/delivery`, {
         method: 'POST',
       });
     },

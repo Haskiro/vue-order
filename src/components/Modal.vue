@@ -42,14 +42,14 @@ export default {
       this.$emit("closeModal", null);
     },
     toShipment: async function() {
-      await fetch(`https://justcors.com/tl_26283e1/demo-api.vsdev.space/api/orders_admin/2021-0637/orders/${this.modal.id}/delivery`, {
+      await fetch(`https://justcors.com/tl_6550159/demo-api.vsdev.space/api/orders_admin/2021-0637/orders/${this.modal.id}/delivery`, {
         method: 'POST',
-      });
+      }).then(() => {this.$emit("refreshShipmentList", null)});
     },
     deleteOrder: async function() {
       await fetch(`https://demo-api.vsdev.space/api/orders_admin/2021-0637/orders/${this.modal.id}`, {
         method: 'DELETE',
-      });
+      }).then(() => { this.$emit("refreshOrderList", null)});
     }
   }
 }
