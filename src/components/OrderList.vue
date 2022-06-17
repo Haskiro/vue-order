@@ -46,8 +46,11 @@ export default {
     refreshOrderList: function() {
       this.$emit("refreshOrderList", null);
     },
+    refreshShipmentList: function() {
+      this.$emit("refreshShipmentList", null);
+    },
     getOrderDetails: async function(order_id) {
-      const response = await fetch(`https://justcors.com/tl_6550159/demo-api.vsdev.space/api/orders_admin/2021-0637/orders/${order_id}`, {
+      const response = await fetch(`https://justcors.com/tl_fbb9fdb/demo-api.vsdev.space/api/orders_admin/2021-0637/orders/${order_id}`, {
         method: 'GET',
       });
       return response.json();
@@ -59,9 +62,9 @@ export default {
       });
     }, 
     addOrderToShipments: async function(order_id) {
-      await fetch(`https://justcors.com/tl_6550159/demo-api.vsdev.space/api/orders_admin/2021-0637/orders/${order_id}/delivery`, {
+      await fetch(`https://justcors.com/tl_fbb9fdb/demo-api.vsdev.space/api/orders_admin/2021-0637/orders/${order_id}/delivery`, {
         method: 'POST',
-      });
+      }).then(() => {this.refreshShipmentList()});
     },
     deleteOrder: async function(order_id) {
       await fetch(`https://demo-api.vsdev.space/api/orders_admin/2021-0637/orders/${order_id}`, {

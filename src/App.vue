@@ -13,7 +13,7 @@
     </header>
     <main class="main container">
       <section class="column">
-        <order-list @openModal="openModal" @dragOrder="dragOrder" :orders="orders" @refreshOrderList="refreshOrderList"></order-list>
+        <order-list @openModal="openModal" @dragOrder="dragOrder" :orders="orders" @refreshOrderList="refreshOrderList" @refreshShipmentList="refreshShipmentList"></order-list>
         <modal-window v-show="modalIsVisible" @closeModal="modalVisibilityToggle"
         :modal="modal" :modalOrders="modalOrders" @refreshOrderList="refreshOrderList" @refreshShipmentList="refreshShipmentList">
         </modal-window>
@@ -75,7 +75,7 @@ export default {
   },
   methods: {
     getOrders: async function() {
-      const response = await fetch('https://justcors.com/tl_6550159/demo-api.vsdev.space/api/orders_admin/2021-0637/orders/', {
+      const response = await fetch('https://justcors.com/tl_fbb9fdb/demo-api.vsdev.space/api/orders_admin/2021-0637/orders/', {
         method: 'GET',
       });
       return response.json();
@@ -87,7 +87,7 @@ export default {
       );
     },
     getShipments: async function() {
-      const response = await fetch('https://justcors.com/tl_6550159/demo-api.vsdev.space/api/orders_admin/2021-0637/deliveries/', {
+      const response = await fetch('https://justcors.com/tl_fbb9fdb/demo-api.vsdev.space/api/orders_admin/2021-0637/deliveries/', {
         method: 'GET',
       });
       return response.json();
@@ -112,7 +112,7 @@ export default {
       this.order_dragged = order_id;
     },
     onDrop: async function() {
-      await fetch(`https://justcors.com/tl_6550159/demo-api.vsdev.space/api/orders_admin/2021-0637/orders/${this.order_dragged}/delivery`, {
+      await fetch(`https://justcors.com/tl_fbb9fdb/demo-api.vsdev.space/api/orders_admin/2021-0637/orders/${this.order_dragged}/delivery`, {
         method: 'POST',
       }).then(() => {this.refreshShipmentList()});
     }
