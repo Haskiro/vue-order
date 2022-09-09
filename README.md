@@ -1,24 +1,9 @@
-# vue-order
+# Что можно улучшить
 
-## Project setup
-```
-npm install
-```
+1. Скрытие опций при клике вне
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+2. Срабатывание переключателя темы не только при клике по кружочку, а при клике по всему переключателю
 
-### Compiles and minifies for production
-```
-npm run build
-```
+3. Адаптировать страницу под экраны, менее чем 750px
 
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+4. Добавить hover, focus элементам, добавить тени.
